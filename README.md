@@ -38,6 +38,6 @@ npm start
 ```
 ### License
 
-Copyright (C) 2020, Ulfix  
+Copyright (C) 2021 Jose Francisco Alvarez Valdez  
  All rights reserved.
 ----
