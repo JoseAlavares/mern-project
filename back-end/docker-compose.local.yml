@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:4.1.8-xenial
+    container_name: mern-project-db
+    environment:
+    #- MONGO_INITDB_ROOT_USERNAME=admin
+    #- MONGO_INITDB_ROOT_PASSWORD=admin
+    - MONGO_INITDB_DATABASE=mern-project-db
+    networks:
+    - mern-project
+    ports:
+    - "27017:27017"
+
+  backend:
+    image: jalvarez/mern-project-api:local
+    container_name: mern-project-api
+    restart: unless-stopped
+    command: bash -c "node src/db-init.js && pm2-runtime src/index.js"
+    environment:
+    - JWT_PASSWORD=12345
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.local
+    ports:
+    - "3333:3000"
+    volumes: 
+    - ./src:/home/node/app/src
+    depends_on:
+    - mongo
+    networks:
+    - mern-project
+
+networks:
+  mern-project:
+    driver: bridge
